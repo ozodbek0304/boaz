@@ -5,8 +5,11 @@ import { useQueryClient } from "@tanstack/react-query"
 import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import {
     GalleryVerticalEnd,
+    LogIn,
+    LogOut,
     Settings,
     ShoppingCart,
+    User,
     Warehouse,
 } from "lucide-react"
 import { useTranslation } from "react-i18next"
@@ -16,6 +19,7 @@ import CategoryDialog from "../shared/category-dialog"
 import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
 import TooltipLayout from "./tooltip-layout"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
 
 export default function Header() {
     const confirm = useConfirm()
@@ -26,6 +30,7 @@ export default function Header() {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
     const pathname = useLocation().pathname
+    const username = "admin"
 
     async function logOut() {
         const isConfirmed = await confirm({
@@ -39,7 +44,7 @@ export default function Header() {
         }
     }
 
-    if (pathname === "/auth") return null
+
     return (
         <div className="bg-background sticky top-0 left-0 right-0 z-40">
             <header className="flex flex-col backdrop-blur px-2 sm:px-4 xl:container !max-w-[1360px] mx-auto">
@@ -130,7 +135,7 @@ export default function Header() {
                                 </TooltipLayout>
                             )}
 
-                            {/* {username ?
+                            {username ?
                                 <DropdownMenu>
                                     <TooltipLayout text={username}>
                                         <DropdownMenuTrigger
@@ -183,7 +188,7 @@ export default function Header() {
                                         </Link>
                                     </TooltipLayout>
                                 )
-                            } */}
+                            }
                             <div className="ml-1">
                                 <LanguageSwitcher />
                             </div>

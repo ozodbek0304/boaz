@@ -1,8 +1,9 @@
 import { cn } from "@/lib/utils"
+import { useEffect } from "react"
 import { FieldValues, Path, UseFormReturn } from "react-hook-form"
 import { ClassNameValue } from "tailwind-merge"
 import ErrorMessage from "../ui/error-message"
-import { Input } from "../ui/input"
+import { Input, InputProps } from "../ui/input"
 import { Label } from "../ui/label"
 
 interface IProps<IForm extends FieldValues> {
@@ -11,7 +12,7 @@ interface IProps<IForm extends FieldValues> {
     label?: string
     wrapperClassName?: ClassNameValue
     hideError?: boolean
-    type?: string
+    required?: boolean
 }
 
 export default function FormInput<IForm extends FieldValues>({
@@ -19,45 +20,52 @@ export default function FormInput<IForm extends FieldValues>({
     name,
     label,
     wrapperClassName,
-    className,
-    type = "text",
     hideError = false,
+    required = false,
     ...props
-}: IProps<IForm> & React.InputHTMLAttributes<HTMLInputElement>) {
+}: IProps<IForm> & InputProps) {
     const {
         register,
         formState: { errors },
     } = methods
 
-    const reg = register(name)
+    const reg = register(name, {
+        required: {
+            value: required,
+            message: `${label}ni kiriting`,
+        },
+    })
 
-    const { disabled, ...otherProps } = props
+    useEffect(() => {
+        register(name)
+    }, [name, register])
 
     return (
         <fieldset
-            className={cn("flex flex-col gap-2 w-full", wrapperClassName)}>
+            className={cn("flex flex-col gap-1 w-full", wrapperClassName)}
+        >
             {label && (
                 <Label
                     htmlFor={name}
-                    className={cn(
-                        !!errors?.[name] && "text-destructive",
-                        "cursor-pointer",
-                    )}>
+                    className={cn(!!errors?.[name] && "text-destructive")}
+                    required={required}
+                >
                     {label}
                 </Label>
             )}
             <Input
-                type={type}
-                {...reg}
-                {...otherProps}
-                disabled={disabled || methods.formState.disabled}
-                placeholder={props.placeholder || label}
+                type={"text"}
+                placeholder={label}
                 id={name}
                 fullWidth
+                autoComplete="off"
+                {...reg}
+                {...props}
             />
             {!hideError && errors[name] && (
-                <ErrorMessage className="-mt-1">
-                    {errors[name]?.message as string}
+                <ErrorMessage>
+                    {(errors[name]?.message as string) ||
+                        errors.root?.[name]?.message}
                 </ErrorMessage>
             )}
         </fieldset>

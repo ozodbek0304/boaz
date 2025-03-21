@@ -5,53 +5,30 @@ import { useRequest } from "@/hooks/useRequest"
 import { useStore } from "@/hooks/useStore"
 import Loading from "@/layouts/loading"
 import { formatMoney } from "@/lib/format-money"
-import { useMemo } from "react"
+import { useNavigate } from "@tanstack/react-router"
 import { Fade } from "react-awesome-reveal"
 import { useTranslation } from "react-i18next"
-import { toast } from "sonner"
 import BasketCard from "./basket-card"
-import { shop_id } from "@/constants/api-endpoints"
 
 export default function Basket() {
     const { setStore } = useStore<CartItem[]>("cart")
-    const { cart } = useCart()
+    const { cart, allPrice } = useCart()
     const { post, isPending } = useRequest()
+    const navigate = useNavigate()
 
     const { t } = useTranslation()
 
-    const totalPrice =
-        cart?.reduce(
-            (acc, item) =>
-                acc +
-                (item.shop_prices?.find((p) => p.shop_id === shop_id)
-                    ?.retail_price || 0) *
-                    (item.count || 1),
-            0,
-        ) || 0
-
-    const allPrice = useMemo(() => {
-        return (
-            cart?.reduce(
-                (acc, item) =>
-                    acc +
-                    (item.shop_prices?.find((p) => p.shop_id === shop_id)
-                        ?.retail_price || 0) *
-                        (item.count || 1),
-                0,
-            ) || 0
-        )
-    }, [cart])
-
     const handleSell = async () => {
-        await post("order/", {
-            carts:
-                cart?.map((p) => ({
-                    product: p.id,
-                    quantity: p.count,
-                })) || [],
-        })
-        setStore([])
-        toast.success(`${t("Muvaffaqiyatli amalga oshirildi")}`)
+        navigate({ to: "/checkout" })
+        // await post("order/", {
+        //     carts:
+        //         cart?.map((p) => ({
+        //             product: p.id,
+        //             quantity: p.count,
+        //         })) || [],
+        // })
+        // setStore([])
+        // toast.success(`${t("Muvaffaqiyatli amalga oshirildi")}`)
     }
 
     return (

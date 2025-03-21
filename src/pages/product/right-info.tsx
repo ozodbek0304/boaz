@@ -115,7 +115,7 @@ export default function RightInfo({ d }: { d: Product2 }) {
 
     return (
         <div className="flex flex-col justify-between items-start gap-6 md:gap-2 w-full h-full lg:max-w-md p-4 sm:p-6 rounded-xl relative bg-white">
-            <p>{t('Mahsulot narxi')}</p>
+            <p>{t("Mahsulot narxi")}</p>
             {lastPrice - discountedPrice > 0 && (
                 <p className="text-xs bg-primary text-white px-4 py-1 absolute top-0 right-0 translate-x-[1px] -translate-y-0.5 rounded-bl-xl rounded-tr-xl">
                     -
@@ -205,12 +205,14 @@ export default function RightInfo({ d }: { d: Product2 }) {
                         </div>
                     :   <div className="flex gap-2">
                             <Button
+                                disabled={count === 0}
                                 icon={<ShoppingCart width={18} />}
                                 onClick={() => toggleBasket()}
                                 className="w-full">
                                 {t("Savatchaga qo'shish")}
                             </Button>
                             <Button
+                                disabled={count === 0}
                                 icon={<CheckCheck width={18} />}
                                 onClick={() => toggleBasket()}
                                 className="w-full"

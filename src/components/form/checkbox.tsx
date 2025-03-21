@@ -1,5 +1,12 @@
 import { cn } from "@/lib/utils"
-import { Controller, FieldValues, Path, UseFormReturn } from "react-hook-form"
+import {
+    Controller,
+    FieldValues,
+    Path,
+    PathValue,
+    useController,
+    UseFormReturn,
+} from "react-hook-form"
 import { ClassNameValue } from "tailwind-merge"
 import { Checkbox } from "../ui/checkbox"
 import ErrorMessage from "../ui/error-message"
@@ -11,48 +18,51 @@ interface IProps<IForm extends FieldValues> {
     label?: string
     wrapperClassName?: ClassNameValue
     hideError?: boolean
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+    required?: boolean
 }
-
 export default function FormCheckbox<IForm extends FieldValues>({
     methods,
     name,
     label,
     hideError = false,
     disabled,
-    onChange,
+    wrapperClassName,
 }: IProps<IForm> & { disabled?: boolean }) {
+    const {
+        field,
+        fieldState: { error },
+    } = useController({
+        name,
+        control: methods.control,
+        defaultValue: false as PathValue<IForm, Path<IForm>>,
+    })
     return (
-        <div>
+        <fieldset>
             <Controller
                 name={name}
                 control={methods.control}
-                render={({ field }) => (
-                    <div className="flex items-center gap-2 cursor-pointer">
+                render={() => (
+                    <div className={cn("flex items-center gap-2 cursor-pointer", wrapperClassName)}>
                         <Checkbox
                             checked={field.value}
                             onCheckedChange={field.onChange}
                             disabled={disabled || field.disabled}
                             id={name}
-                            onChange={onChange}
                         />
                         <Label
                             htmlFor={name}
-                            className={cn(
-                                !!methods.control._formState.errors?.[name] &&
-                                    "text-destructive",
-                                "cursor-pointer",
-                            )}>
+                            className={cn(!!error && "text-destructive")}
+                        >
                             {label}
                         </Label>
                     </div>
                 )}
             />
-            {!hideError && methods.control._formState.errors?.[name] && (
+            {!!error && !hideError && (
                 <ErrorMessage>
-                    {methods.control._formState.errors[name]?.message as string}
+                    {error.message || error.root?.message}
                 </ErrorMessage>
             )}
-        </div>
+        </fieldset>
     )
 }

@@ -107,7 +107,7 @@ export default function Profile() {
                     <TabsContent
                         key={t.id}
                         value={t.id.toString()}
-                        className="pt-0 mt-0">
+                        className="pt-0 mt-0  w-full">
                         {t.content}
                     </TabsContent>
                 ))}

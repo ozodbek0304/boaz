@@ -1,4 +1,6 @@
+import { useMemo } from "react"
 import { useStore } from "./useStore"
+import { shop_id } from "@/constants/api-endpoints"
 
 export default function useCart() {
     const { store, setStore } = useStore<CartItem[]>("cart", [])
@@ -38,11 +40,30 @@ export default function useCart() {
             setStore(updatedCart || [])
         }
     }
+    function removeItem(id: string) {
+        const updatedCart = store?.filter((item) => item.id !== id)
+        setStore(updatedCart ?? [])
+    }
+
+    const allPrice = useMemo(() => {
+        return (
+            store?.reduce(
+                (acc, item) =>
+                    acc +
+                    (item.shop_prices?.find((p) => p.shop_id === shop_id)
+                        ?.retail_price || 0) *
+                        (item.count || 1),
+                0,
+            ) || 0
+        )
+    }, [store])
 
     return {
         cart: store,
         addToCart,
         removeFromCart,
         isHaveProduct,
+        removeItem,
+        allPrice
     }
 }

@@ -18,7 +18,9 @@ import { Route as MainImport } from './routes/_main'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as MainIndexImport } from './routes/_main/index'
 import { Route as MainWarehouseImport } from './routes/_main/warehouse'
+import { Route as MainShopImport } from './routes/_main/shop'
 import { Route as MainProfileImport } from './routes/_main/profile'
+import { Route as MainCheckoutImport } from './routes/_main/checkout'
 import { Route as MainBasketImport } from './routes/_main/basket'
 import { Route as AuthAuthImport } from './routes/_auth/auth'
 import { Route as MainCategoriesIndexImport } from './routes/_main/categories/index'
@@ -68,9 +70,21 @@ const MainWarehouseRoute = MainWarehouseImport.update({
   getParentRoute: () => MainRoute,
 } as any)
 
+const MainShopRoute = MainShopImport.update({
+  id: '/shop',
+  path: '/shop',
+  getParentRoute: () => MainRoute,
+} as any)
+
 const MainProfileRoute = MainProfileImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => MainRoute,
+} as any)
+
+const MainCheckoutRoute = MainCheckoutImport.update({
+  id: '/checkout',
+  path: '/checkout',
   getParentRoute: () => MainRoute,
 } as any)
 
@@ -149,11 +163,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainBasketImport
       parentRoute: typeof MainImport
     }
+    '/_main/checkout': {
+      id: '/_main/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof MainCheckoutImport
+      parentRoute: typeof MainImport
+    }
     '/_main/profile': {
       id: '/_main/profile'
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof MainProfileImport
+      parentRoute: typeof MainImport
+    }
+    '/_main/shop': {
+      id: '/_main/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof MainShopImport
       parentRoute: typeof MainImport
     }
     '/_main/warehouse': {
@@ -234,7 +262,9 @@ const MainWarehouseRouteWithChildren = MainWarehouseRoute._addFileChildren(
 
 interface MainRouteChildren {
   MainBasketRoute: typeof MainBasketRoute
+  MainCheckoutRoute: typeof MainCheckoutRoute
   MainProfileRoute: typeof MainProfileRoute
+  MainShopRoute: typeof MainShopRoute
   MainWarehouseRoute: typeof MainWarehouseRouteWithChildren
   MainIndexRoute: typeof MainIndexRoute
   MainCategoriesCategoryRoute: typeof MainCategoriesCategoryRoute
@@ -244,7 +274,9 @@ interface MainRouteChildren {
 
 const MainRouteChildren: MainRouteChildren = {
   MainBasketRoute: MainBasketRoute,
+  MainCheckoutRoute: MainCheckoutRoute,
   MainProfileRoute: MainProfileRoute,
+  MainShopRoute: MainShopRoute,
   MainWarehouseRoute: MainWarehouseRouteWithChildren,
   MainIndexRoute: MainIndexRoute,
   MainCategoriesCategoryRoute: MainCategoriesCategoryRoute,
@@ -259,7 +291,9 @@ export interface FileRoutesByFullPath {
   '/about-us': typeof AboutUsRoute
   '/auth': typeof AuthAuthRoute
   '/basket': typeof MainBasketRoute
+  '/checkout': typeof MainCheckoutRoute
   '/profile': typeof MainProfileRoute
+  '/shop': typeof MainShopRoute
   '/warehouse': typeof MainWarehouseRouteWithChildren
   '/admin/products': typeof AdminProductsLazyRoute
   '/': typeof MainIndexRoute
@@ -274,7 +308,9 @@ export interface FileRoutesByTo {
   '/about-us': typeof AboutUsRoute
   '/auth': typeof AuthAuthRoute
   '/basket': typeof MainBasketRoute
+  '/checkout': typeof MainCheckoutRoute
   '/profile': typeof MainProfileRoute
+  '/shop': typeof MainShopRoute
   '/warehouse': typeof MainWarehouseRouteWithChildren
   '/admin/products': typeof AdminProductsLazyRoute
   '/': typeof MainIndexRoute
@@ -291,7 +327,9 @@ export interface FileRoutesById {
   '/about-us': typeof AboutUsRoute
   '/_auth/auth': typeof AuthAuthRoute
   '/_main/basket': typeof MainBasketRoute
+  '/_main/checkout': typeof MainCheckoutRoute
   '/_main/profile': typeof MainProfileRoute
+  '/_main/shop': typeof MainShopRoute
   '/_main/warehouse': typeof MainWarehouseRouteWithChildren
   '/admin/products': typeof AdminProductsLazyRoute
   '/_main/': typeof MainIndexRoute
@@ -308,7 +346,9 @@ export interface FileRouteTypes {
     | '/about-us'
     | '/auth'
     | '/basket'
+    | '/checkout'
     | '/profile'
+    | '/shop'
     | '/warehouse'
     | '/admin/products'
     | '/'
@@ -322,7 +362,9 @@ export interface FileRouteTypes {
     | '/about-us'
     | '/auth'
     | '/basket'
+    | '/checkout'
     | '/profile'
+    | '/shop'
     | '/warehouse'
     | '/admin/products'
     | '/'
@@ -337,7 +379,9 @@ export interface FileRouteTypes {
     | '/about-us'
     | '/_auth/auth'
     | '/_main/basket'
+    | '/_main/checkout'
     | '/_main/profile'
+    | '/_main/shop'
     | '/_main/warehouse'
     | '/admin/products'
     | '/_main/'
@@ -388,7 +432,9 @@ export const routeTree = rootRoute
       "filePath": "_main.tsx",
       "children": [
         "/_main/basket",
+        "/_main/checkout",
         "/_main/profile",
+        "/_main/shop",
         "/_main/warehouse",
         "/_main/",
         "/_main/categories/$category",
@@ -407,8 +453,16 @@ export const routeTree = rootRoute
       "filePath": "_main/basket.tsx",
       "parent": "/_main"
     },
+    "/_main/checkout": {
+      "filePath": "_main/checkout.tsx",
+      "parent": "/_main"
+    },
     "/_main/profile": {
       "filePath": "_main/profile.tsx",
+      "parent": "/_main"
+    },
+    "/_main/shop": {
+      "filePath": "_main/shop.tsx",
       "parent": "/_main"
     },
     "/_main/warehouse": {

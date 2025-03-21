@@ -15,7 +15,7 @@ type Props = {
     search?: string | undefined
 }
 
-type ProductsResponse = {
+export type ProductsResponse = {
     count: number
     products: Product2[]
 }

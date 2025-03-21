@@ -6,12 +6,9 @@ import DOMPurify from "dompurify"
 import { useEffect, useMemo } from "react"
 import HomeProductsGrid from "../home/home-products-grid"
 import ProductCarousel from "./carousel"
+import DeliveryComponents from "./delivery"
+import RightOptions from "./options"
 import RightInfo from "./right-info"
-
-type ProductsResponse = {
-    count: number
-    products: Product2[]
-}
 
 export default function Product() {
     const params = useParams({ from: "/_main/products/$product" })
@@ -31,7 +28,10 @@ export default function Product() {
     const slides = useMemo(() => {
         return [
             ...(product?.images
-                ?.sort((a, b) => Number(a.sequence_number) - Number(b.sequence_number))
+                ?.sort(
+                    (a, b) =>
+                        Number(a.sequence_number) - Number(b.sequence_number),
+                )
                 ?.map((p) => p.image_url) || []),
         ]
     }, [product])
@@ -56,22 +56,12 @@ export default function Product() {
                     <div className="flex flex-col lg:flex-row gap-3 w-full">
                         <ProductCarousel slides={(slides as any) || []} />
                         <div className="h-full w-full lg:max-w-md flex flex-col md:flex-row lg:flex-col items-start gap-4 sm:gap-3">
-                            {/* {!!d?.colors && d?.colors?.length > 0 && (
-                                <RightOptions
-                                    data={d?.colors as Product["colors"]}
-                                    attr={d?.attr}
-                                    products={d?.products}
-                                />
-                            )} */}
-                            {/* <ProductInfo d={product}/> */}
-                            <RightInfo d={product} />
-                            {/* {product?.description && (
-                                <div className="p-3 bg-background rounded-xl w-full h-full">
-                                    <p className="text-sm sm:text-base text-muted-foreground">
-                                        {product?.description}
-                                    </p>
-                                </div>
-                            )} */}
+                            <RightOptions />
+
+                            <div className="flex flex-col w-full gap-3">
+                                <RightInfo d={product} />
+                                <DeliveryComponents />
+                            </div>
                         </div>
                     </div>
                     {product?.description && (
