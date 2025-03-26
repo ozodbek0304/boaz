@@ -15,7 +15,7 @@ type OrderStatus =
     | "Topshirilgan"
     | "Bekor qilingan"
     | "To'lov qilinmagan"
-type StatusColor = "yellow-500" | "green-500" | "gray-500" | "red-500"
+type StatusColor = "bg-yellow-500" | "bg-green-500" | "bg-gray-500" | "bg-red-500"
 
 interface Product {
     id: string
@@ -40,16 +40,15 @@ interface Order {
     currentStatusIndex?: number
 }
 
-
 const ProductItem = ({ product }: { product: Product }) => (
     <div className="flex items-center border-t pt-4">
-        <div className="w-16 h-16 bg-gray-100 rounded-md overflow-hidden relative mr-4">
+        <div className="w-16 h-16 flex justify-center items-center bg-gray-100 rounded-md overflow-hidden relative mr-4">
             <Image
                 src={product.image || "/placeholder.svg"}
                 alt={product.name}
                 width={64}
                 height={64}
-                className="object-cover"
+                contain
             />
         </div>
         <div className="flex-1">
@@ -121,8 +120,6 @@ const OrderDetails = ({
     </div>
 )
 
-
-
 const OrderProgressTracker = ({
     currentStatus,
     setCurrentStatus,
@@ -166,7 +163,6 @@ const OrderProgressTracker = ({
     )
 }
 
-
 const OrderCard = ({
     order,
     isExpanded,
@@ -185,7 +181,7 @@ const OrderCard = ({
             <div className="font-medium">Buyurtma #{order.orderNumber}</div>
             <div className="flex items-center text-[13px] text-gray-500">
                 <div
-                    className={`bg-${order.statusColor} text-white px-3 rounded-lg`}>
+                    className={`${order.statusColor} text-white px-3 rounded-lg`}>
                     {order.status}
                 </div>
                 <span className="mx-2">•</span>
@@ -232,7 +228,7 @@ export default function OrdersHistory() {
             id: "order1",
             orderNumber: "2342345",
             status: "Yig'ilmoqda",
-            statusColor: "yellow-500",
+            statusColor: "bg-yellow-500",
             updatedAt: "22.03.2023 22:55",
             deliveryDate: "Dushanba 17 Mart 2025",
             orderDate: "Chorshanba 12 Mart 2025 19:35",
@@ -245,7 +241,7 @@ export default function OrdersHistory() {
                     color: "White",
                     quantity: 1,
                     price: 450000,
-                    image: "https://cdn-grocery.billz.ai/billz/4bee0d1e-8ee6-4733-acf0-c70434f8288f.jpg",
+                    image: "https://cdn-grocery.billz.ai/billz/87d36a3f-e5db-4779-911e-ed56b475103d.png",
                 },
                 {
                     id: "2",
@@ -254,7 +250,7 @@ export default function OrdersHistory() {
                     color: "White",
                     quantity: 3,
                     price: 150000,
-                    image: "https://cdn-grocery.billz.ai/billz/4bee0d1e-8ee6-4733-acf0-c70434f8288f.jpg",
+                    image: "https://cdn-grocery.billz.ai/billz/87d36a3f-e5db-4779-911e-ed56b475103d.png",
                 },
                 {
                     id: "3",
@@ -263,7 +259,7 @@ export default function OrdersHistory() {
                     color: "White",
                     quantity: 2,
                     price: 200000,
-                    image: "https://cdn-grocery.billz.ai/billz/4bee0d1e-8ee6-4733-acf0-c70434f8288f.jpg",
+                    image: "https://cdn-grocery.billz.ai/billz/87d36a3f-e5db-4779-911e-ed56b475103d.png",
                 },
             ],
         },
@@ -271,7 +267,7 @@ export default function OrdersHistory() {
             id: "order2",
             orderNumber: "2342345",
             status: "Topshirilgan",
-            statusColor: "green-500",
+            statusColor: "bg-green-500",
             updatedAt: "22.03.2023 22:55",
             deliveryDate: "Dushanba 17 Mart 2025",
             orderDate: "Chorshanba 12 Mart 2025 19:35",
@@ -284,7 +280,7 @@ export default function OrdersHistory() {
                     color: "White",
                     quantity: 1,
                     price: 450000,
-                    image: "https://cdn-grocery.billz.ai/billz/4bee0d1e-8ee6-4733-acf0-c70434f8288f.jpg",
+                    image: "https://cdn-grocery.billz.ai/billz/87d36a3f-e5db-4779-911e-ed56b475103d.png",
                 },
                 {
                     id: "3",
@@ -293,7 +289,7 @@ export default function OrdersHistory() {
                     color: "White",
                     quantity: 2,
                     price: 200000,
-                    image: "https://cdn-grocery.billz.ai/billz/4bee0d1e-8ee6-4733-acf0-c70434f8288f.jpg",
+                    image: "https://cdn-grocery.billz.ai/billz/87d36a3f-e5db-4779-911e-ed56b475103d.png",
                 },
             ],
         },
@@ -301,7 +297,7 @@ export default function OrdersHistory() {
             id: "order3",
             orderNumber: "2342345",
             status: "Yaratildi",
-            statusColor: "gray-500",
+            statusColor: "bg-gray-500",
             updatedAt: "22.03.2023 22:55",
             deliveryDate: "Dushanba 17 Mart 2025",
             orderDate: "Chorshanba 12 Mart 2025 19:35",
@@ -315,7 +311,7 @@ export default function OrdersHistory() {
                     color: "White",
                     quantity: 2,
                     price: 200000,
-                    image: "https://cdn-grocery.billz.ai/billz/4bee0d1e-8ee6-4733-acf0-c70434f8288f.jpg",
+                    image: "https://cdn-grocery.billz.ai/billz/87d36a3f-e5db-4779-911e-ed56b475103d.png",
                 },
             ],
         },

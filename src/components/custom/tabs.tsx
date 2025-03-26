@@ -66,6 +66,9 @@ export default function AnimatedTabs({
                             className={cn(
                                 "delay-75 data-[state=active]:bg-transparent data-[state=active]:text-background duration-300 z-10 ease-out",
                             )}>
+                            {t.icon ?
+                                <span className="mr-2">{t.icon}</span>
+                            :   null}{" "}
                             {t.name}
                         </TabsTrigger>
                     ))}
@@ -92,6 +95,7 @@ export default function AnimatedTabs({
 interface TabsProps {
     options: {
         name: string | number
+        icon?: any
         id: string | number
         content?: React.ReactNode
     }[]

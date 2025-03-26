@@ -1,3 +1,4 @@
+import ParamAnimatedTabs from "@/components/param/animated-tab"
 import EmptyBox from "@/components/shared/initial-data-box/empty-box"
 import { Button } from "@/components/ui/button"
 import useCart from "@/hooks/useCart"
@@ -6,6 +7,7 @@ import { useStore } from "@/hooks/useStore"
 import Loading from "@/layouts/loading"
 import { formatMoney } from "@/lib/format-money"
 import { useNavigate } from "@tanstack/react-router"
+import { Package, Truck } from "lucide-react"
 import { Fade } from "react-awesome-reveal"
 import { useTranslation } from "react-i18next"
 import BasketCard from "./basket-card"
@@ -19,7 +21,7 @@ export default function Basket() {
     const { t } = useTranslation()
 
     const handleSell = async () => {
-        navigate({ to: "/checkout" })
+        navigate({ to: "/checkout", search: { products: "take_away" } })
         // await post("order/", {
         //     carts:
         //         cart?.map((p) => ({
@@ -32,15 +34,32 @@ export default function Basket() {
     }
 
     return (
-        <div className="space-y-6 overflow-hidden">
+        <div className="space-y-4 overflow-hidden">
             <h2 className="text-lg sm:text-xl md:text-2xl font-medium border-b pb-2">
-                {t("savatingiz")}{" "}
+                {t("savatingiz")}
+                {", "}
                 {!!cart?.length ?
                     <span className="text-muted-foreground">
                         {cart?.length} {t("maxsulot")}
                     </span>
                 :   ""}
             </h2>
+            <ParamAnimatedTabs
+                paramName="products"
+                wrapperClassName="p-0"
+                options={[
+                    {
+                        name: t("Do'kondan olish "),
+                        id: "take_away",
+                        icon: <Package className="w-5 h-5" />,
+                    },
+                    {
+                        name: t("Yetkazib berish"),
+                        id: "delivery",
+                        icon: <Truck className="w-5 h-5" />,
+                    },
+                ]}
+            />
 
             <div className="flex flex-col gap-4">
                 <Loading loading={false}>
@@ -55,7 +74,7 @@ export default function Basket() {
 
             {!!cart?.length && (
                 <div className=" border-t pt-2 sm:pt-4 flex sm:items-center justify-between gap-x-4 gap-y-2 flex-col sm:flex-row">
-                    <div className="text-lg font-medium">
+                    <div className="text-lg font-medium ">
                         {t("Jami")}:{" "}
                         {formatMoney(allPrice?.toFixed(2), undefined, true, t)}
                     </div>

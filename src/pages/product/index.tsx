@@ -54,25 +54,27 @@ export default function Product() {
                         {product.name} {product.sku}
                     </h2>
                     <div className="flex flex-col lg:flex-row gap-3 w-full">
-                        <ProductCarousel slides={(slides as any) || []} />
+                        <div className="flex flex-col gap-3 w-full">
+                            <ProductCarousel slides={(slides as any) || []} />
+                            {product?.description && (
+                                <div className="p-8 bg-background rounded-xl">
+                                    <p
+                                        className="text-sm sm:text-base text-muted-foreground"
+                                        dangerouslySetInnerHTML={{
+                                            __html: sanitizedHtml,
+                                        }}></p>
+                                </div>
+                            )}
+                        </div>
                         <div className="h-full w-full lg:max-w-md flex flex-col md:flex-row lg:flex-col items-start gap-4 sm:gap-3">
                             <RightOptions />
 
                             <div className="flex flex-col w-full gap-3">
                                 <RightInfo d={product} />
-                                <DeliveryComponents />
+                                <DeliveryComponents d={product} />
                             </div>
                         </div>
                     </div>
-                    {product?.description && (
-                        <div className="p-8 bg-background rounded-3xl">
-                            <p
-                                className="text-sm sm:text-base text-muted-foreground"
-                                dangerouslySetInnerHTML={{
-                                    __html: sanitizedHtml,
-                                }}></p>
-                        </div>
-                    )}
                 </div>
             )}
 

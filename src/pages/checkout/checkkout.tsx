@@ -1,9 +1,6 @@
-import FormCheckbox from "@/components/form/checkbox"
 import FormInput from "@/components/form/input"
 import PhoneField from "@/components/form/phone-field"
-import FormSelect from "@/components/form/select"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 import { useForm } from "react-hook-form"
 import CheckoutCard from "./checkout-card"
 
@@ -11,10 +8,7 @@ type FormType = {
     full_name: string
     email: string
     phone_number: string
-    address: string
-    country: string
-    delivery: string
-    take_away: string
+    socail_network: string
 }
 
 function CheckkoutPage() {
@@ -25,38 +19,14 @@ function CheckkoutPage() {
     }
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-white py-6 px-3 rounded-lg">
-            <div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 bg-white py-6 px-3 rounded-lg">
+            <div className="col-span-1 order-2 lg:order-1">
                 <h2 className="text-xl font-medium mb-4">
                     To'lov ma'lumotlari
                 </h2>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-4">
-                    <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-                        <FormCheckbox
-                            methods={form}
-                            name="delivery"
-                            label="Yetkazib berish"
-                            wrapperClassName={cn(
-                                "bg-background p-[10px] rounded-lg border  shadow-sm",
-                                form.watch("delivery") && "border-primary",
-                            )}
-                            disabled={form.watch("take_away") ? true : false}
-                            
-                        />
-                        <FormCheckbox
-                            methods={form}
-                            name="take_away"
-                            label="Do'kondan olib ketish"
-                            wrapperClassName={cn(
-                                "bg-background p-[10px] rounded-lg border  shadow-sm",
-                                form.watch("take_away") && "border-primary",
-                            )}
-                            disabled={form.watch("delivery") ? true : false}
-                        />
-                    </div>
-
                     <FormInput
                         methods={form}
                         label="F.I.O"
@@ -79,19 +49,21 @@ function CheckkoutPage() {
                         name="email"
                         placeholder="Elektron pochta"
                     />
-                    <FormSelect
+                    <FormInput
                         methods={form}
-                        options={[{ id: "1", name: "Uzbekston" }]}
-                        name="country"
-                        label="Tuman"
+                        label="Bog'lanish qo'shimcha"
                         required
+                        name="socail_network"
+                        placeholder="telegram, watsapp "
                     />
                     <Button type="submit" className="w-full">
                         To'lov qilish
                     </Button>
                 </form>
             </div>
-            <CheckoutCard />
+            <div className="col-span-2 order-1 lg:order-2">
+                <CheckoutCard />
+            </div>
         </div>
     )
 }

@@ -6,6 +6,7 @@ interface ParamTabsProps {
     options: {
         id: string | number
         name: string | number
+        icon?:JSX.Element
         content?: React.ReactNode
     }[]
     paramName?: string
