@@ -217,7 +217,7 @@ export default function RightInfo({ d }: { d: Product2 }) {
                                 onClick={() => toggleBasket()}
                                 className="w-full"
                                 variant="secondary">
-                                {t("Bittada xarid")}
+                                {t("Hoziroq xarid qilish")}
                             </Button>
                         </div>
                     }

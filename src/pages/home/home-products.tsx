@@ -46,18 +46,19 @@ export default function HomeProducts({
                         loop: true,
                     }}
                     className="container relative rounded max-w-full"
-                    plugins={[
-                        Autoplay({
-                            delay: 3000,
-                            stopOnFocusIn: false,
-                            stopOnInteraction: false,
-                        }),
-                    ]}>
-                    <CarouselContent className="flex items-center">
+                    // plugins={[
+                    //     Autoplay({
+                    //         delay: 3000,
+                    //         stopOnFocusIn: false,
+                    //         stopOnInteraction: false,
+                    //     }),
+                    // ]}
+                    >
+                    <CarouselContent className="flex">
                         {data?.products &&
                             data?.products?.map((d, i: number) => (
                                 <CarouselItem
-                                    className="basis-full xsm:basis-1/2 xmd:basis-1/2 md:basis-1/3 xl:basis-1/5 2xl:basis-1/5"
+                                    className=" basis-full  xsm:basis-1/2 xmd:basis-1/2 md:basis-1/3 xl:basis-1/5 2xl:basis-1/5"
                                     key={i}>
                                     <Fade damping={0.5} key={i}>
                                         <ProductCard2

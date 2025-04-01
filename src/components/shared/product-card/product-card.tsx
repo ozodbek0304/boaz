@@ -12,6 +12,7 @@ import { Link } from "@tanstack/react-router"
 import { Heart, ShoppingCart } from "lucide-react"
 import { memo, useMemo } from "react"
 import { useTranslation } from "react-i18next"
+import { toast } from "sonner"
 import XitBadge from "../xit-badge"
 
 interface ProductCardProps {
@@ -57,11 +58,25 @@ function ProductCard2({ p, xit }: ProductCardProps) {
 
     const toggleBasket = () => {
         addToCart(p)
+        toast.success(
+            <div className="flex flex-col gap-1  w-full">
+                <span className="text-[16px] font-medium">
+                    Mahsulot savatga qo'shildi
+                </span>
+                <span>{p.name}</span>
+                <Link
+                    onClick={() => toast.dismiss()}
+                    to="/basket"
+                    className="text-end text-primary text-[16px]">
+                    Savatga o'tish
+                </Link>
+            </div>,
+        )
     }
 
     return (
         <Card
-            className="overflow-hidden  relative group hover:shadow-none duration-300 rounded-xl border-none"
+            className="overflow-hidden  relative  hover:shadow-none duration-300 rounded-xl border-none"
             key={p.id}>
             <CardContent className="p-0">
                 <Button
@@ -94,7 +109,7 @@ function ProductCard2({ p, xit }: ProductCardProps) {
                         />
                     </Link>
                 </div>
-                <div className="p-2 sm:p-3 bg-zinc-50">
+                <div className="p-2 sm:p-3 bg-zinc-50 h-[120px] flex flex-col justify-between ">
                     <Link to={`/products/${p.id}`}>
                         <h2 className="text-sm line-clamp-2 mb-1 leading-5">
                             {p.name}

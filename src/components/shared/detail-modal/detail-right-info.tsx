@@ -116,7 +116,7 @@ export default function RightInfo({ d }: { d: Product }) {
                         className="w-full"
                         variant="secondary"
                         disabled={!s_p}>
-                        {t("bittada xarid")}
+                        {t("Hoziroq xarid qilish")}
                     </Button>
                 </div>
             }

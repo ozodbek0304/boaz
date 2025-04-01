@@ -1,4 +1,3 @@
-import Footer from "@/components/footer"
 import SiteFooter from "@/components/footer/site-footer"
 import Header from "@/components/header"
 import { Toaster } from "@/components/ui/sonner"
@@ -27,9 +26,9 @@ function RootComponent() {
     }, [is_best_client, is_admin, navigate])
 
     return (
-        <div className="relative overflow-x-visible mx-auto">
+        <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="pt-4 px-2 sm:px-4 h-full min-h-screen sm:min-h-full xl:container !max-w-[1360px] mx-auto flex-1">
+            <main className="flex-grow pt-4 px-2 sm:px-4 xl:container max-w-[1360px] mx-auto">
                 <Outlet />
             </main>
             <SiteFooter />
@@ -37,3 +36,4 @@ function RootComponent() {
         </div>
     )
 }
+
