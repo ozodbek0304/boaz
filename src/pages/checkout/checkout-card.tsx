@@ -1,9 +1,7 @@
-import ParamAnimatedTabs from "@/components/param/animated-tab"
 import useCart from "@/hooks/useCart"
 import { formatMoney } from "@/lib/format-money"
 import { useTranslation } from "react-i18next"
 import BasketCard from "../basket/basket-card"
-import { Package, Truck } from "lucide-react"
 
 type Props = {}
 
@@ -12,28 +10,14 @@ function CheckoutCard({}: Props) {
     const { t } = useTranslation()
 
     return (
-        <div>
-            <h2 className="text-xl font-medium mb-4">
-                Savatingizni ko'rib chiqing
-            </h2>
-            <ParamAnimatedTabs
-                paramName="products"
-                options={[
-                    {
-                        name: t("Do'kondan olish "),
-                        id: "take_away",
-                        icon: <Package className="w-5 h-5" />
-                    },
-                    {
-                        name: t("Yetkazib berish"),
-                        id: "delivery",
-                        icon: <Truck  className="w-5 h-5"/>
-                    },
-                ]}
-                wrapperClassName="p-0"
-            />
-            <div className="space-y-3 max-h-[60vh] overflow-y-auto">
-                {cart?.map((item) => <BasketCard product={item} />)}
+        <div className="flex flex-col justify-between h-full ">
+            <div>
+                <h2 className="text-xl font-medium mb-4">
+                    Savatingizni ko'rib chiqing
+                </h2>
+                <div className="space-y-3 max-h-[60vh] overflow-y-auto">
+                    {cart?.map((item) => <BasketCard product={item} />)}
+                </div>
             </div>
 
             <div className=" mt-5">

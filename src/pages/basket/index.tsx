@@ -7,7 +7,7 @@ import { useStore } from "@/hooks/useStore"
 import Loading from "@/layouts/loading"
 import { formatMoney } from "@/lib/format-money"
 import { useNavigate } from "@tanstack/react-router"
-import { Package, Truck } from "lucide-react"
+import { LayoutList, Package, Truck } from "lucide-react"
 import { Fade } from "react-awesome-reveal"
 import { useTranslation } from "react-i18next"
 import BasketCard from "./basket-card"
@@ -44,22 +44,33 @@ export default function Basket() {
                     </span>
                 :   ""}
             </h2>
-            <ParamAnimatedTabs
-                paramName="products"
-                wrapperClassName="p-0"
-                options={[
-                    {
-                        name: t("Do'kondan olish "),
-                        id: "take_away",
-                        icon: <Package className="w-5 h-5" />,
-                    },
-                    {
-                        name: t("Yetkazib berish"),
-                        id: "delivery",
-                        icon: <Truck className="w-5 h-5" />,
-                    },
-                ]}
-            />
+            <div className="w-full flex justify-between items-center ">
+                <ParamAnimatedTabs
+                    paramName="products"
+                    wrapperClassName="p-0"
+                    options={[
+                        {
+                            name: t("Barchasi "),
+                            id: "all",
+                            icon: <LayoutList className="w-5 h-5" />,
+                        },
+                        {
+                            name: t("Do'kondan olish "),
+                            id: "take_away",
+                            icon: <Package className="w-5 h-5" />,
+                        },
+                        {
+                            name: t("Yetkazib berish"),
+                            id: "delivery",
+                            icon: <Truck className="w-5 h-5" />,
+                        },
+                    ]}
+                />
+                <div className="text-lg font-medium text-primary border hidden lg:block  text-center p-2 sm:px-12 rounded-lg bg-white">
+                    {t("Jami")}:{" "}
+                    {formatMoney(allPrice?.toFixed(2), undefined, true, t)}
+                </div>
+            </div>
 
             <div className="flex flex-col gap-4">
                 <Loading loading={false}>
@@ -73,8 +84,8 @@ export default function Basket() {
             </div>
 
             {!!cart?.length && (
-                <div className=" border-t pt-2 sm:pt-4 flex sm:items-center justify-between gap-x-4 gap-y-2 flex-col sm:flex-row">
-                    <div className="text-lg font-medium ">
+                <div className="border-t py-2 flex md:items-end justify-end gap-x-4 gap-y-2 flex-col ">
+                    <div className="text-lg font-medium border text-primary  lg:hidden  text-center p-2 sm:px-12 rounded-lg bg-white">
                         {t("Jami")}:{" "}
                         {formatMoney(allPrice?.toFixed(2), undefined, true, t)}
                     </div>

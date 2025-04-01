@@ -27,13 +27,12 @@ function RootComponent() {
     }, [is_best_client, is_admin, navigate])
 
     return (
-        <div className="min-h-screen relative overflow-x-visible mx-auto">
+        <div className="relative overflow-x-visible mx-auto">
             <Header />
             <main className="pt-4 px-2 sm:px-4 h-full min-h-screen sm:min-h-full xl:container !max-w-[1360px] mx-auto flex-1">
                 <Outlet />
             </main>
             <SiteFooter />
-            <Footer />
             <Toaster />
         </div>
     )

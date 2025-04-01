@@ -19,7 +19,7 @@ export default function ProductCarousel({
 }) {
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [emblaMainApi, setEmblaMainApi] = useState<CarouselApi>()
-    const { xs } = useMedia()
+    const { xs,md } = useMedia()
 
     const onThumbClick = useCallback(
         (index: number) => {
@@ -46,7 +46,7 @@ export default function ProductCarousel({
     }, [emblaMainApi, onSelect])
 
     return (
-        <div className="flex flex-col-reverse md:flex-row items-start gap-2 w-full h-full">
+        <div className="flex flex-col-reverse md:flex-row items-start gap-2 w-full h-full  bg-white rounded-lg">
             {slides?.length >= 2 && (
                 <Carousel
                     opts={{
@@ -55,15 +55,14 @@ export default function ProductCarousel({
                         containScroll: "trimSnaps",
                         watchDrag:true
                     }}
-                    orientation={xs ? "horizontal" : "vertical"}>
-                    <CarouselContent className="max-h-[500px] max-w-[350px] mx-auto">
+                    orientation={!md ? "horizontal" : "vertical"}>
+                    <CarouselContent className="md:h-[532px] h-[80px] md:max-w-[350px] max-w-full  mx-auto  md:border-r  md:px-2">
                         {slides?.map((m, i) => (
                             <CarouselItem
                                 key={i}
                                 className={cn(
                                     "basis-auto cursor-pointer p-1 flex items-center justify-center",
-                                    i == 0 && "mt-5",
-                                    xs && i == 0 && "mt-0 ml-5",
+                                    i == 0 && "md:mt-5 mt-0",
                                 )}
                                 onClick={() => onThumbClick(i)}>
                                 <div
@@ -89,7 +88,7 @@ export default function ProductCarousel({
                     className="rounded-lg max-w-full w-full h-full"
                     opts={{ loop: true, align: "start" }}
                     setApi={(emblaMainApi1) => setEmblaMainApi(emblaMainApi1)}>
-                    <CarouselContent className="flex h-[520px] items-center">
+                    <CarouselContent className="flex md:h-[520px] items-center h-[380px]">
                         {slides?.map((m, i) => (
                             <CarouselItem key={i} className="w-full h-full">
                                 <div

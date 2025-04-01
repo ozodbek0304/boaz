@@ -1,4 +1,4 @@
-import ProductCard from "@/components/shared/product-card"
+import ProductCard2 from "@/components/shared/product-card/product-card"
 import Loader from "@/components/ui/loader"
 import { useUser } from "@/constants/useUser"
 import { useInfiniteGet } from "@/hooks/useInfiniteGet"
@@ -12,7 +12,7 @@ export default function OneCategory() {
     const { t } = useTranslation()
 
     const { data, ref, isFetchingNextPage, isLoading } =
-        useInfiniteGet<Product>(`product/?${params.category}=true`, undefined)
+        useInfiniteGet<Product2>(`product/?${params.category}=true`, undefined)
 
     const { username } = useUser()
     return (
@@ -28,7 +28,7 @@ export default function OneCategory() {
                 <div className="w-full grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,_minmax(14rem,_auto))] gap-2 sm:gap-4">
                     {data?.map((d, i: number) => (
                         <Fade damping={0.5} key={i}>
-                            <ProductCard
+                            <ProductCard2
                                 p={d}
                                 key={i}
                                 is_authenticated={!!username}

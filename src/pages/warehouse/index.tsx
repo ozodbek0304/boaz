@@ -1,4 +1,4 @@
-import ProductCard from "@/components/shared/product-card"
+import ProductCard from "@/components/shared/product-card/product-card"
 import Loader from "@/components/ui/loader"
 import { useUser } from "@/constants/useUser"
 import { useInfiniteGet } from "@/hooks/useInfiniteGet"
@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next"
 
 export default function Warehouse() {
     const { data, ref, isFetchingNextPage, isLoading } =
-        useInfiniteGet<Product>("base-product/?highest_discount=true")
+        useInfiniteGet<Product2>("base-product/?highest_discount=true")
     const { username } = useUser()
     const { t } = useTranslation()
 

@@ -29,7 +29,7 @@ const phoneUtil = PhoneNumberUtil.getInstance()
 export default function PhoneField<IForm extends FieldValues>({
     methods,
     name,
-    label = "Telefon raqam",
+    label,
     required = false,
     wrapperClassName,
     className,
@@ -88,7 +88,7 @@ export default function PhoneField<IForm extends FieldValues>({
 
     return (
         <fieldset
-            className={cn("flex flex-col gap-1 w-full", wrapperClassName)}
+            className={cn("flex flex-col gap-1 w-full ", wrapperClassName)}
         >
             {label && (
                 <Label
@@ -103,7 +103,7 @@ export default function PhoneField<IForm extends FieldValues>({
                 // hideDropdown
                 // forceDialCode
                 className={cn(
-                    "w-full h-9 rounded-md has-[input:focus]:ring-2 has-[input:focus]:ring-ring has-[input:focus]:ring-offset-0 !outline-none",
+                    "w-full h-10 rounded-md has-[input:focus]:ring-2 has-[input:focus]:ring-ring has-[input:focus]:ring-offset-0 !outline-none",
                     className,
                 )}
                 inputClassName={cn(
@@ -113,7 +113,7 @@ export default function PhoneField<IForm extends FieldValues>({
                 countrySelectorStyleProps={{
                     // className="hidden",
                     buttonClassName:
-                        "h-full !px-3 !rounded-l-md !bg-background !border-input",
+                        "!h-10 !px-3 !rounded-l-md !bg-background !border-input",
                     ...countrySelectorStyleProps,
                 }}
                 value={val}

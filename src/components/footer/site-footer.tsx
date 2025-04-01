@@ -1,22 +1,12 @@
 import { Link } from "@tanstack/react-router"
 import { Clock4, Phone } from "lucide-react"
 import { useTranslation } from "react-i18next"
-import { Button } from "../ui/button"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "../ui/dialog"
 
 export default function SiteFooter() {
     const { t } = useTranslation()
     return (
-        <footer className="w-full py-12 pb-6 bg-background mt-10">
-            <div className="xl:container !max-w-[1360px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-6">
+        <footer className="w-full py-12 pb-6 bg-background mt-10  ">
+            <div className="xl:container !max-w-[1360px] mx-auto flex flex-col sm:flex-row sm:justify-between gap-3  sm:gap-8 px-4 md:px-6">
                 <div className="space-y-4 h-full flex flex-col pb-3">
                     <Link to="/" className="hidden md:inline flex-1">
                         <div className="flex items-center gap-1">
@@ -69,8 +59,8 @@ export default function SiteFooter() {
             </div>
 
             {/* Bottom Links */}
-            <div className="xl:container !max-w-[1360px] mx-auto px-4 md:px-6 mt-8 pt-4 border-t">
-                <div className="flex flex-col md:flex-row justify-start items-center gap-4 text-sm text-muted-foreground">
+            <div className="xl:container !max-w-[1360px]  mx-auto px-4 md:px-6 mt-8 pt-4 border-t">
+                <div className="flex flex-col md:flex-row justify-end items-center gap-4 text-sm text-muted-foreground">
                     <p>
                         {t("privacy", {
                             year: new Date().getFullYear(),
@@ -79,7 +69,6 @@ export default function SiteFooter() {
                 </div>
             </div>
 
-            <Dialog open></Dialog>
         </footer>
     )
 }

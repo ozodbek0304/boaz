@@ -1,12 +1,13 @@
 import FormInput from "@/components/form/input"
 import PhoneField from "@/components/form/phone-field"
+import FormTextarea from "@/components/form/textarea"
 import { Button } from "@/components/ui/button"
 import { useForm } from "react-hook-form"
 import CheckoutCard from "./checkout-card"
 
 type FormType = {
     full_name: string
-    email: string
+    comment: string
     phone_number: string
     socail_network: string
 }
@@ -29,14 +30,12 @@ function CheckkoutPage() {
                     className="space-y-4">
                     <FormInput
                         methods={form}
-                        label="F.I.O"
                         required
                         name="full_name"
                         placeholder="F.I.O"
                     />
                     <PhoneField
                         methods={form}
-                        label="Telefon raqam"
                         required
                         name="phone_number"
                         placeholder="Telefon raqam"
@@ -44,17 +43,14 @@ function CheckkoutPage() {
                     <FormInput
                         methods={form}
                         required
-                        label="Elektron pochta"
-                        type="email"
-                        name="email"
-                        placeholder="Elektron pochta"
-                    />
-                    <FormInput
-                        methods={form}
-                        label="Bog'lanish qo'shimcha"
-                        required
                         name="socail_network"
                         placeholder="telegram, watsapp "
+                    />
+                    <FormTextarea
+                        methods={form}
+                        required
+                        name="comment"
+                        placeholder="Izoh... "
                     />
                     <Button type="submit" className="w-full">
                         To'lov qilish

@@ -39,16 +39,16 @@ export default function Profile() {
         string,
         string | undefined
     >
-    const currentTab = search["page_tabs"] || options[0]?.id
 
     const handleTabChange = (tab: string | number) => {
         navigate({ search: { orders: tab } as any })
     }
 
+
     return (
         <Tabs
             onValueChange={handleTabChange}
-            defaultValue={search["page_tabs"] || "orders_history"}>
+            value={search?.orders || "orders_history"}>
             <ProductBreadcrumb items={[{ name: "Profil" }]} />
 
             <div className="flex items-start gap-2 mt-3">

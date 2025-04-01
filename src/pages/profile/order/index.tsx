@@ -15,7 +15,11 @@ type OrderStatus =
     | "Topshirilgan"
     | "Bekor qilingan"
     | "To'lov qilinmagan"
-type StatusColor = "bg-yellow-500" | "bg-green-500" | "bg-gray-500" | "bg-red-500"
+type StatusColor =
+    | "bg-yellow-500"
+    | "bg-green-500"
+    | "bg-gray-500"
+    | "bg-red-500"
 
 interface Product {
     id: string
@@ -32,33 +36,43 @@ interface Order {
     orderNumber: string
     status: OrderStatus
     statusColor: StatusColor
-    updatedAt: string
     deliveryDate: string
     orderDate: string
     totalAmount: string
     products: Product[]
-    currentStatusIndex?: number
 }
 
 const ProductItem = ({ product }: { product: Product }) => (
-    <div className="flex items-center border-t pt-4">
-        <div className="w-16 h-16 flex justify-center items-center bg-gray-100 rounded-md overflow-hidden relative mr-4">
-            <Image
-                src={product.image || "/placeholder.svg"}
-                alt={product.name}
-                width={64}
-                height={64}
-                contain
-            />
+    <div className="flex items-end justify-between border-t pt-4">
+        <div className="flex items-center">
+            <div className="w-24 h-24 flex justify-center items-center bg-gray-100 rounded-md overflow-hidden relative mr-4">
+                <Image
+                    src={product.image || "/placeholder.svg"}
+                    alt={product.name}
+                    width={100}
+                    height={100}
+                    contain
+                />
+            </div>
+            <div className="flex-1">
+                <div className="font-medium">{product.name}</div>
+                <div className="text-sm text-gray-500 flex items-center gap-1">
+                    <span className="w-16">Razmeri:</span> <span>{product.size}</span>
+                </div>
+                <div className="text-sm text-gray-500 flex items-center gap-1">
+                    <span className="w-16">Rangi:</span> <span>{product.color}</span>
+                </div>
+                <div className="text-sm text-gray-500 flex items-center gap-1">
+                    <span className="w-16">Narxi:</span> <span>{product.price.toLocaleString()} so'm</span>
+                </div>
+                <div className="text-sm text-gray-500 flex items-center gap-1">
+                    <span className="w-16">Soni:</span> <span>{product.quantity} ta</span>
+                </div>
+            </div>
         </div>
-        <div className="flex-1">
-            <div className="font-medium">{product.name}</div>
-            <div className="text-sm text-gray-500">Size: {product.size}</div>
-            <div className="text-sm text-gray-500">Color: {product.color}</div>
-        </div>
-        <div className="text-right">
+        <div className="text-start">
             <div className="font-medium">
-                {product.quantity}x {product.price.toLocaleString()} so'm
+                Jami: {(product.quantity * product.price).toLocaleString()} so'm
             </div>
         </div>
     </div>
@@ -74,27 +88,23 @@ const OrderDetails = ({
     onToggle: () => void
 }) => (
     <div className="p-4 border-t">
-        <div className="grid grid-cols-2 gap-4 mb-3">
+        <div className="flex justify-between items-center mb-3 gap-3">
+            <div>
+                <div className="text-sm text-gray-500">Buyurtma sanasi:</div>
+                <div>{order.orderDate} <span className="ml-4">12:45</span></div>
+            </div>
+            <div>
+                <div className="text-sm  text-gray-500">Buyurtma summasi:</div>
+                <div className="font-bold">{order.totalAmount}</div>
+            </div>
+        </div>
+
+        <div className="flex justify-between items-end gap-3">
             <div>
                 <div className="text-sm text-gray-500">
                     Yetkazib berish sanasi:
                 </div>
-                <div>{order.deliveryDate}</div>
-            </div>
-            <div>
-                <div className="text-sm text-gray-500">Buyurtma sanasi:</div>
-                <div>{order.orderDate}</div>
-            </div>
-        </div>
-
-        <div className="mb-4">
-            <div className="text-sm text-gray-500">Buyurtma summasi:</div>
-            <div>{order.totalAmount}</div>
-        </div>
-
-        <div className="flex justify-between items-center">
-            <div className="text-sm">
-                Jami {order.products.length} ta maxsulot
+                <div>{order.deliveryDate} <span className="ml-4">22:35</span></div>
             </div>
             <button
                 className="flex items-center text-sm text-gray-500"
@@ -104,7 +114,7 @@ const OrderDetails = ({
                         Yopish <ChevronUp className="ml-1 h-4 w-4" />
                     </>
                 :   <>
-                        To'liq ko'rish <ChevronDown className="ml-1 h-4 w-4" />
+                        Batafsil <ChevronDown className="ml-1 h-4 w-4" />
                     </>
                 }
             </button>
@@ -120,18 +130,24 @@ const OrderDetails = ({
     </div>
 )
 
-const OrderProgressTracker = ({
-    currentStatus,
-    setCurrentStatus,
-}: {
-    currentStatus: number
-    setCurrentStatus: (index: number) => void
-}) => {
-    const statusLabels = ["Yaratildi", "Yig'ilmoqda", "Yo'lda", "Yetkazilgan"]
-    const statusDates = ["1 Fev", "2 Fev", "5 Fev", "10-12 Fev"]
+const OrderProgressTracker = ({ order }: { order: Order }) => {
+    const statusLabels = ["Yaratildi", "Yig'ilmoqda", "Yo'lda", "Topshirilgan"]
+    const statusDates = ["1 Fev", "2 Fev", "5 Fev", "12 Fev"]
+
+    const stausImage: any = {
+        Yaratildi: "https://cdn-icons-png.flaticon.com/512/157/157285.png",
+        "Yig'ilmoqda":
+            "https://cdn-icons-png.flaticon.com/512/6259/6259277.png",
+        "Yo'lda":
+            "https://t3.ftcdn.net/jpg/06/20/08/12/360_F_620081258_pRxp6QuDJ8edxHh6Wajgn4tqFjLV11tP.jpg",
+        Topshirilgan: "https://www.creativefabrica.com/wp-content/uploads/2021/09/21/Fast-Delivery-Icon-Graphics-17621993-1-1-580x386.jpg",
+        "Bekor qilingan":
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZ9xrbouiHlSWxJZzwSe8IYnGl9AyH4owcyltYDAVV3au-9F1McrHCSInSyou4d04uVx4&usqp=CAU",
+    }
 
     return (
-        <div className="p-4 border-t bg-gray-50">
+        <div
+            className={`p-4 border-t bg-gray-50 ${order.status === "Topshirilgan" ? "hidden" : ""}`}>
             <div className="relative">
                 <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -translate-y-1/2"></div>
 
@@ -139,19 +155,17 @@ const OrderProgressTracker = ({
                     {statusLabels.map((label, index) => (
                         <div
                             key={index}
-                            className="flex flex-col items-center first:items-start last:items-end">
+                            className="flex flex-col items-center first:items-start last:items-end ">
                             <div
-                                className={`text-xs ${index <= currentStatus ? "text-green-500 font-medium" : "text-gray-500"}`}>
-                                {label}
+                                className={`my-2`}
+                                style={{ cursor: "pointer" }}>
+                                <Image
+                                    src={stausImage[label]}
+                                    width={32}
+                                    height={32}
+                                />
                             </div>
-                            <div
-                                className={`w-6 h-6 rounded-full my-2 ${
-                                    index <= currentStatus ? "bg-green-500" : (
-                                        "bg-gray-200"
-                                    )
-                                } border-2 border-white z-10`}
-                                onClick={() => setCurrentStatus(index)}
-                                style={{ cursor: "pointer" }}></div>
+
                             <div className="text-xs text-gray-500">
                                 {statusDates[index]}
                             </div>
@@ -167,14 +181,10 @@ const OrderCard = ({
     order,
     isExpanded,
     onToggle,
-    currentStatus,
-    setCurrentStatus,
 }: {
     order: Order
     isExpanded: boolean
     onToggle: () => void
-    currentStatus?: number
-    setCurrentStatus?: (index: number) => void
 }) => (
     <div className="border rounded-lg mb-6 overflow-hidden bg-white">
         <div className="flex justify-between items-center p-4">
@@ -184,17 +194,10 @@ const OrderCard = ({
                     className={`${order.statusColor} text-white px-3 rounded-lg`}>
                     {order.status}
                 </div>
-                <span className="mx-2">•</span>
-                <span>Yangilangan: {order.updatedAt}</span>
             </div>
         </div>
 
-        {currentStatus !== undefined && setCurrentStatus && (
-            <OrderProgressTracker
-                currentStatus={currentStatus}
-                setCurrentStatus={setCurrentStatus}
-            />
-        )}
+        <OrderProgressTracker order={order} />
 
         <OrderDetails
             order={order}
@@ -214,8 +217,6 @@ export default function OrdersHistory() {
         order3: false,
     })
 
-    const [currentStatus, setCurrentStatus] = useState(0)
-
     const toggleOrder = (orderId: string) => {
         setExpandedOrders((prev) => ({
             ...prev,
@@ -225,13 +226,41 @@ export default function OrdersHistory() {
 
     const orders: Order[] = [
         {
+            id: "order2",
+            orderNumber: "2342345",
+            status: "Yaratildi",
+            statusColor: "bg-gray-500",
+            deliveryDate: "22.03.2023",
+            orderDate: "15.02.2025",
+            totalAmount: "1 450 000 so'm",
+            products: [
+                {
+                    id: "1",
+                    name: "Gradient Graphic T-shirt",
+                    size: "Large",
+                    color: "White",
+                    quantity: 1,
+                    price: 450000,
+                    image: "https://cdn-grocery.billz.ai/billz/87d36a3f-e5db-4779-911e-ed56b475103d.png",
+                },
+                {
+                    id: "3",
+                    name: "Skinny Fit Jeans",
+                    size: "Large",
+                    color: "White",
+                    quantity: 2,
+                    price: 200000,
+                    image: "https://cdn-grocery.billz.ai/billz/87d36a3f-e5db-4779-911e-ed56b475103d.png",
+                },
+            ],
+        },
+        {
             id: "order1",
             orderNumber: "2342345",
             status: "Yig'ilmoqda",
             statusColor: "bg-yellow-500",
-            updatedAt: "22.03.2023 22:55",
-            deliveryDate: "Dushanba 17 Mart 2025",
-            orderDate: "Chorshanba 12 Mart 2025 19:35",
+            deliveryDate: "22.03.2025",
+            orderDate: "22.02.2025",
             totalAmount: "1 450 000 so'm",
             products: [
                 {
@@ -264,45 +293,13 @@ export default function OrdersHistory() {
             ],
         },
         {
-            id: "order2",
+            id: "order3",
             orderNumber: "2342345",
             status: "Topshirilgan",
             statusColor: "bg-green-500",
-            updatedAt: "22.03.2023 22:55",
-            deliveryDate: "Dushanba 17 Mart 2025",
-            orderDate: "Chorshanba 12 Mart 2025 19:35",
+            deliveryDate: "10.01.2025 ",
+            orderDate: "22.03.2024 ",
             totalAmount: "1 450 000 so'm",
-            products: [
-                {
-                    id: "1",
-                    name: "Gradient Graphic T-shirt",
-                    size: "Large",
-                    color: "White",
-                    quantity: 1,
-                    price: 450000,
-                    image: "https://cdn-grocery.billz.ai/billz/87d36a3f-e5db-4779-911e-ed56b475103d.png",
-                },
-                {
-                    id: "3",
-                    name: "Skinny Fit Jeans",
-                    size: "Large",
-                    color: "White",
-                    quantity: 2,
-                    price: 200000,
-                    image: "https://cdn-grocery.billz.ai/billz/87d36a3f-e5db-4779-911e-ed56b475103d.png",
-                },
-            ],
-        },
-        {
-            id: "order3",
-            orderNumber: "2342345",
-            status: "Yaratildi",
-            statusColor: "bg-gray-500",
-            updatedAt: "22.03.2023 22:55",
-            deliveryDate: "Dushanba 17 Mart 2025",
-            orderDate: "Chorshanba 12 Mart 2025 19:35",
-            totalAmount: "1 450 000 so'm",
-            currentStatusIndex: currentStatus,
             products: [
                 {
                     id: "3",
@@ -343,20 +340,14 @@ export default function OrdersHistory() {
             />
             <Loading loading={false}>
                 <div className="font-sans">
-                    <h1 className="text-2xl font-bold mb-6">Buyurtmalarim</h1>
+                    <h1 className="text-2xl font-bold mb-6">Buyurtmalarim, (3 ta)</h1>
 
-                    {orders.map((order, index) => (
+                    {orders.map((order) => (
                         <OrderCard
                             key={order.id}
                             order={order}
                             isExpanded={expandedOrders[order.id]}
                             onToggle={() => toggleOrder(order.id)}
-                            currentStatus={
-                                index === 2 ? currentStatus : undefined
-                            }
-                            setCurrentStatus={
-                                index === 2 ? setCurrentStatus : undefined
-                            }
                         />
                     ))}
                 </div>

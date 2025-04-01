@@ -1,10 +1,12 @@
 import { useUser } from "@/constants/useUser"
 import useCart from "@/hooks/useCart"
 import { useConfirm } from "@/hooks/useConfirm"
+import { useStore } from "@/hooks/useStore"
 import { useQueryClient } from "@tanstack/react-query"
 import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import {
     GalleryVerticalEnd,
+    Heart,
     LogIn,
     LogOut,
     Settings,
@@ -15,18 +17,22 @@ import {
 import { useTranslation } from "react-i18next"
 import LanguageSwitcher from "../custom/useLanguage"
 import ParamInput from "../param/input"
-import CategoryDialog from "../shared/category-dialog"
 import { Badge } from "../ui/badge"
 import { Button } from "../ui/button"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "../ui/dropdown-menu"
 import TooltipLayout from "./tooltip-layout"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
 
 export default function Header() {
     const confirm = useConfirm()
     const { is_admin, is_best_client } = useUser()
     const { t } = useTranslation()
     const { cart } = useCart()
-
+    const { store: likeds } = useStore<Product2[]>("likeds")
     const queryClient = useQueryClient()
     const navigate = useNavigate()
     const pathname = useLocation().pathname
@@ -44,7 +50,6 @@ export default function Header() {
         }
     }
 
-
     return (
         <div className="bg-background sticky top-0 left-0 right-0 z-40">
             <header className="flex flex-col backdrop-blur px-2 sm:px-4 xl:container !max-w-[1360px] mx-auto">
@@ -61,22 +66,21 @@ export default function Header() {
                     </Link>
                     <div className="flex justify-between gap-1 md:gap-0 overflow-x-auto p-0.5 w-full">
                         <div className="flex items-center gap-2 w-full max-w-3xl">
-                            <CategoryDialog>
-                                <Button
-                                    icon={<GalleryVerticalEnd width={18} />}
-                                    className="bg-primary/10 hover:bg-primary/20 text-primary font-normal">
-                                    <span className="hidden xl:block">
-                                        {t("Katalog")}
-                                    </span>
-                                </Button>
-                            </CategoryDialog>
+                            <Button
+                                onClick={() => navigate({ to: "/categories" })}
+                                icon={<GalleryVerticalEnd width={18} />}
+                                className="bg-primary/10 hover:bg-primary/20 text-primary font-normal">
+                                <span className="hidden xl:block">
+                                    {t("Katalog")}
+                                </span>
+                            </Button>
 
                             {pathname !== "/auth" && (
                                 <ParamInput paramName="search" />
                             )}
                         </div>
 
-                        <div className="flex flex-shrink-0 pl-2 gap-2">
+                        <div className="flex flex-shrink-0 pl-2 gap-1">
                             <Link
                                 to="/warehouse"
                                 className="hidden md:inline"
@@ -100,13 +104,40 @@ export default function Header() {
                             </div>
                             <div className="relative">
                                 <Link
+                                    to={"/profile"}
+                                    search={{ orders: "favourites" }}
+                                    className="relative hidden md:inline">
+                                    <Button
+                                        icon={
+                                            <Heart
+                                                className={
+                                                    likeds?.length ?
+                                                        "fill-red-500 text-red-500"
+                                                    :   ""
+                                                }
+                                                width={22}
+                                            />
+                                        }
+                                        size={"icon"}
+                                        variant="ghost"></Button>
+                                    {!!likeds?.length &&
+                                        likeds?.length >= 1 && (
+                                            <Badge className="absolute  -top-4 -right-2 z-20  overflow-visible">
+                                                {likeds?.length}
+                                            </Badge>
+                                        )}
+                                </Link>
+                            </div>
+
+                            <div className="relative">
+                                <Link
                                     to="/basket"
                                     className="relative hidden md:inline"
                                     activeProps={{
                                         className: "!text-primary",
                                     }}>
                                     <Button
-                                        icon={<ShoppingCart width={18} />}
+                                        icon={<ShoppingCart width={22} />}
                                         size={"icon"}
                                         variant="ghost"></Button>
                                     {!!cart?.length && cart?.length >= 1 && (
@@ -116,6 +147,7 @@ export default function Header() {
                                     )}
                                 </Link>
                             </div>
+
                             {is_admin && (
                                 <TooltipLayout text={t("Admin")}>
                                     <Link
@@ -143,7 +175,7 @@ export default function Header() {
                                             asChild>
                                             <div>
                                                 <Button
-                                                    icon={<User size={20} />}
+                                                    icon={<User size={22} />}
                                                     variant="ghost"
                                                     size={"icon"}
                                                     className={
@@ -161,7 +193,11 @@ export default function Header() {
                                         <DropdownMenuItem
                                             className="cursor-pointer flex items-center gap-2"
                                             asChild>
-                                            <Link to="/profile">
+                                            <Link
+                                                to="/profile"
+                                                search={{
+                                                    orders: "orders_history",
+                                                }}>
                                                 <User width={16} /> {username}
                                             </Link>
                                         </DropdownMenuItem>

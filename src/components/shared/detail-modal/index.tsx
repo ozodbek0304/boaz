@@ -30,7 +30,7 @@ export default function DetailModal({
                 <div className="mx-auto w-full">
                     <div className="p-4 pt-0">
                         <div className="flex items-center justify-center">
-                            <DetailModalContent product={product} />
+                            <DetailModalContent isLoading={true} product={product} />
                         </div>
                         {/* <DrawerClose asChild>
                             <Button variant="outline">Cancel</Button>
