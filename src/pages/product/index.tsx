@@ -53,7 +53,7 @@ export default function Product() {
                     <h2 className="text-lg sm:text-xl md:text-2xl font-medium">
                         {product.name} {product.sku}
                     </h2>
-                    <div className="flex flex-col lg:flex-row gap-3 w-full">
+                    <div className="flex flex-col lg:flex-row  w-full items-start gap-3">
                         <div className="flex flex-col gap-3 w-full">
                             <ProductCarousel slides={(slides as any) || []} />
                             {product?.description && (
@@ -66,7 +66,7 @@ export default function Product() {
                                 </div>
                             )}
                         </div>
-                        <div className="h-full w-full lg:max-w-md flex flex-col md:flex-row lg:flex-col items-start gap-4 sm:gap-3">
+                        <div className="h-full w-full lg:max-w-md flex flex-col md:flex-row lg:flex-col items-start gap-4 sm:gap-2 ">
                             <RightOptions />
 
                             <div className="flex flex-col w-full gap-3">

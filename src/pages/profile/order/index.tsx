@@ -57,16 +57,20 @@ const ProductItem = ({ product }: { product: Product }) => (
             <div className="flex-1">
                 <div className="font-medium">{product.name}</div>
                 <div className="text-sm text-gray-500 flex items-center gap-1">
-                    <span className="w-16">Razmeri:</span> <span>{product.size}</span>
+                    <span className="w-16">Razmeri:</span>{" "}
+                    <span>{product.size}</span>
                 </div>
                 <div className="text-sm text-gray-500 flex items-center gap-1">
-                    <span className="w-16">Rangi:</span> <span>{product.color}</span>
+                    <span className="w-16">Rangi:</span>{" "}
+                    <span>{product.color}</span>
                 </div>
                 <div className="text-sm text-gray-500 flex items-center gap-1">
-                    <span className="w-16">Narxi:</span> <span>{product.price.toLocaleString()} so'm</span>
+                    <span className="w-16">Narxi:</span>{" "}
+                    <span>{product.price.toLocaleString()} so'm</span>
                 </div>
                 <div className="text-sm text-gray-500 flex items-center gap-1">
-                    <span className="w-16">Soni:</span> <span>{product.quantity} ta</span>
+                    <span className="w-16">Soni:</span>{" "}
+                    <span>{product.quantity} ta</span>
                 </div>
             </div>
         </div>
@@ -91,7 +95,9 @@ const OrderDetails = ({
         <div className="flex justify-between items-center mb-3 gap-3">
             <div>
                 <div className="text-sm text-gray-500">Buyurtma sanasi:</div>
-                <div>{order.orderDate} <span className="ml-4">12:45</span></div>
+                <div>
+                    {order.orderDate} <span className="ml-4">12:45</span>
+                </div>
             </div>
             <div>
                 <div className="text-sm  text-gray-500">Buyurtma summasi:</div>
@@ -104,7 +110,9 @@ const OrderDetails = ({
                 <div className="text-sm text-gray-500">
                     Yetkazib berish sanasi:
                 </div>
-                <div>{order.deliveryDate} <span className="ml-4">22:35</span></div>
+                <div>
+                    {order.deliveryDate} <span className="ml-4">22:35</span>
+                </div>
             </div>
             <button
                 className="flex items-center text-sm text-gray-500"
@@ -140,7 +148,8 @@ const OrderProgressTracker = ({ order }: { order: Order }) => {
             "https://cdn-icons-png.flaticon.com/512/6259/6259277.png",
         "Yo'lda":
             "https://t3.ftcdn.net/jpg/06/20/08/12/360_F_620081258_pRxp6QuDJ8edxHh6Wajgn4tqFjLV11tP.jpg",
-        Topshirilgan: "https://www.creativefabrica.com/wp-content/uploads/2021/09/21/Fast-Delivery-Icon-Graphics-17621993-1-1-580x386.jpg",
+        Topshirilgan:
+            "https://www.creativefabrica.com/wp-content/uploads/2021/09/21/Fast-Delivery-Icon-Graphics-17621993-1-1-580x386.jpg",
         "Bekor qilingan":
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZ9xrbouiHlSWxJZzwSe8IYnGl9AyH4owcyltYDAVV3au-9F1McrHCSInSyou4d04uVx4&usqp=CAU",
     }
@@ -150,6 +159,16 @@ const OrderProgressTracker = ({ order }: { order: Order }) => {
             className={`p-4 border-t bg-gray-50 ${order.status === "Topshirilgan" ? "hidden" : ""}`}>
             <div className="relative">
                 <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -translate-y-1/2"></div>
+                <div
+                    className="absolute top-1/2 left-0 h-0.5 bg-blue-500 -translate-y-1/2  transition-all duration-300"
+                    style={{
+                        width:
+                            order.status === "Yaratildi" ? "0%"
+                            : order.status === "Yig'ilmoqda" ? "33%"
+                            : order.status === "Yo'lda" ? "66%"
+                            : "Topshirilgan",
+                    }}
+                />
 
                 <div className="flex justify-between relative">
                     {statusLabels.map((label, index) => (
@@ -340,7 +359,9 @@ export default function OrdersHistory() {
             />
             <Loading loading={false}>
                 <div className="font-sans">
-                    <h1 className="text-2xl font-bold mb-6">Buyurtmalarim, (3 ta)</h1>
+                    <h1 className="text-2xl font-bold mb-6">
+                        Buyurtmalarim, (3 ta)
+                    </h1>
 
                     {orders.map((order) => (
                         <OrderCard

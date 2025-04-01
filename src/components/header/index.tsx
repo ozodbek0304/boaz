@@ -36,6 +36,7 @@ export default function Header() {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
     const pathname = useLocation().pathname
+    const asPath: any = useLocation()
     const username = "admin"
 
     async function logOut() {
@@ -49,6 +50,7 @@ export default function Header() {
             navigate({ to: "/" })
         }
     }
+
 
     return (
         <div className="bg-background sticky top-0 left-0 right-0 z-40">
@@ -119,7 +121,22 @@ export default function Header() {
                                             />
                                         }
                                         size={"icon"}
-                                        variant="ghost"></Button>
+                                        className={
+                                            (
+                                                asPath?.search?.orders ===
+                                                "favourites"
+                                            ) ?
+                                                "border"
+                                            :   ""
+                                        }
+                                        variant={
+                                            (
+                                                asPath?.search?.orders ===
+                                                "favourites"
+                                            ) ?
+                                                "secondary"
+                                            :   "ghost"
+                                        }></Button>
                                     {!!likeds?.length &&
                                         likeds?.length >= 1 && (
                                             <Badge className="absolute  -top-4 -right-2 z-20  overflow-visible">
@@ -139,7 +156,14 @@ export default function Header() {
                                     <Button
                                         icon={<ShoppingCart width={22} />}
                                         size={"icon"}
-                                        variant="ghost"></Button>
+                                        className={
+                                            pathname === "/basket" ? "border"
+                                            :   ""
+                                        }
+                                        variant={
+                                            pathname === "/basket" ? "secondary"
+                                            :   "ghost"
+                                        }></Button>
                                     {!!cart?.length && cart?.length >= 1 && (
                                         <Badge className="absolute -top-4 -right-2 z-20 overflow-visible">
                                             {cart?.length}
@@ -176,14 +200,23 @@ export default function Header() {
                                             <div>
                                                 <Button
                                                     icon={<User size={22} />}
-                                                    variant="ghost"
+                                                    variant={
+                                                        (
+                                                            asPath?.search
+                                                                ?.orders ===
+                                                            "orders_history"
+                                                        ) ?
+                                                            "secondary"
+                                                        :   "ghost"
+                                                    }
                                                     size={"icon"}
                                                     className={
                                                         (
-                                                            pathname ===
-                                                            "/profile"
+                                                            asPath?.search
+                                                                ?.orders ===
+                                                            "orders_history"
                                                         ) ?
-                                                            "text-primary"
+                                                            "text-primary border"
                                                         :   ""
                                                     }></Button>
                                             </div>
